@@ -78,7 +78,7 @@ public class BoardController {
 	
 	//count
 	@GetMapping("/count")
-	public void count(Model model) {
+	public void count(Criteria cri,Model model) {
 		log.info("count 요청");
 		model.addAttribute("count", service.count());
 	}
