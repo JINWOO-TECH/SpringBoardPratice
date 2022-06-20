@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#a").click(function(){
+			if($("#id").val()==""){
+				alert("아이디를 입력하세요");
+			}
+			else{
+				$("#출력").text($("#id").val());
+			}
+			
+		});
+		
+		$("#b").click(function(){
+			if($("#pw").val()==""){
+				alert("비밀번호를 입력하세요");
+			}
+			else{
+				$("#출력").text($("#pw").val());
+			}
+		});
+		
+	});
+	
+</script>
+</head>
+<body>
+
+	id : <input id="id" type="text" value=""><br>
+	pw : <input id="pw" type="password" value=""><br>
+	<button id="a">확인1</button>
+	<button id="b">확인2</button> <br>
+	
+	<div id="출력"></div>
+	
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+ <script src="http://code.jquery.com/jquery-1.10.1.js"></script>
+ <script>
+ 
+	$(document).ready(function(){
+		$("#변신1").click(function(){
+			$("#a").text("변신완료");
+		});
+		
+		$("#변신2").click(function(){
+			$("#a").html("<h2>"+$("#a").text()+"</h2>");
+			
+		});
+	});
+
+</script>
+</head>
+<body>
+<span id="a">난 변신합니다</span><br>
+<button id="변신1">변신1</button>
+<button id="변신2">변신2</button>
+
+</body>
+</html>

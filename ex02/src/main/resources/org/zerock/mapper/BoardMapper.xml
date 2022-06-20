@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+	
+	<select id="getList" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[select * from tbl_board where order by bno desc]]>
+	</select>
+	
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[select bno,title,writer,regdate,updatedate 
+			from (select rownum as rn,bno,title,writer,regdate,updatedate 
+					from(select * from tbl_board order by bno desc)
+				where rownum <=(#{amount}*#{pageNum}))
+		where rn>(#{pageNum}-1)*#{amount} ]]>		
+	</select>
+	
+	<select id="getRankList" resultType="org.zerock.domain.UserCountVO">
+		<![CDATA[select *
+			from(select writer, count(*) as count from tbl_board group by writer order by count desc)
+			where rownum<=3]]>
+	</select>
+	
+	<insert id="insert">
+		insert into tbl_board (bno, title, content ,writer) values(seq_board.nextval,#{title},#{content},#{writer})
+	</insert>
+
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where bno= #{bno}
+	</select>
+
+	<update id="update">
+		update tbl_board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}
+	</update>
+	
+	<delete id="delete">
+		delete from tbl_board where bno=#{bno}
+	</delete>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board (bno, title, content ,writer) values(#{bno},#{title},#{content},#{writer})		
+	</insert>
+	
+<!--  -->	
+	
+	
+	<select id="getCount" resultType="long">
+		select count(*) from tbl_board
+	</select>
+
+	<select id="count" resultType="long">
+		select count(*) from tbl_board where writer=#{writer}
+	</select>
+	
+	<select id="quiz1" resultType="org.zerock.domain.UserCountVO">
+		select writer,count(*) as count from tbl_board group by writer
+	</select>
+	
+	<select id="quiz2" resultType="org.zerock.domain.BoardVO">
+		select Distinct title,  writer from tbl_Board order by writer
+	</select>
+</mapper>
