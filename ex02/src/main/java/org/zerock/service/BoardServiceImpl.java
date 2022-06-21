@@ -50,13 +50,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Long count() {
-		return mapper.getCount();
+	public Long count(Criteria cri) {
+		return mapper.getCount(cri);
 	}
 
 	@Override
 	public List<UserCountVO> ranking() {
 		return mapper.getRankList();
+	}
+
+	@Override
+	public Long duplicatedCount() {
+		return mapper.countduplicated();
 	}
 
 }

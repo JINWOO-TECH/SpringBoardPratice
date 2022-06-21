@@ -53,7 +53,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">게시판을 만들자!</a>
+                <a class="navbar-brand" href="/board/list">게시판을 만들자!</a>
             </div>
 
 

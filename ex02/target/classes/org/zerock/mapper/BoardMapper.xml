@@ -2,17 +2,42 @@
 <!DOCTYPE mapper PUBLIC "//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="org.zerock.mapper.BoardMapper">
+<sql id="criteria">
+					<where>
+					<trim prefixOverrides="OR">
+						<foreach item="type" collection="typeArr">
+							<trim prefix="OR"> 
+							<choose>
+								<when test='type=="T"'>
+									title like '%' || #{keyword} || '%'
+								</when>
+								<when test='type=="C"'>
+									content like '%' || #{keyword} || '%'
+								</when>
+								<when test='type=="W"'>
+									writer like '%' || #{keyword} || '%'
+								</when>
+							</choose>
+							</trim>
+						</foreach>
+					</trim>
+				</where>
+</sql>
 	
 	<select id="getList" resultType="org.zerock.domain.BoardVO">
 		<![CDATA[select * from tbl_board where order by bno desc]]>
 	</select>
 	
 	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
-		<![CDATA[select bno,title,writer,regdate,updatedate 
+		select bno,title,writer,regdate,updatedate 
 			from (select rownum as rn,bno,title,writer,regdate,updatedate 
-					from(select * from tbl_board order by bno desc)
-				where rownum <=(#{amount}*#{pageNum}))
-		where rn>(#{pageNum}-1)*#{amount} ]]>		
+					from(select * from tbl_board 
+			<include refid="criteria"></include>	
+
+			<![CDATA[
+					order by bno desc)
+					where rownum <=(#{amount}*#{pageNum}))
+					where rn>(#{pageNum}-1)*#{amount} ]]>		
 	</select>
 	
 	<select id="getRankList" resultType="org.zerock.domain.UserCountVO">
@@ -29,6 +54,10 @@
 		select * from tbl_board where bno= #{bno}
 	</select>
 
+	<select id="countduplicated" resultType="long">
+		select (select count(*) from tbl_board) - (select count(*) from(select distinct title,content,writer from tbl_board)) as count  from dual
+	</select>
+	
 	<update id="update">
 		update tbl_board set title=#{title}, content=#{content}, writer=#{writer}, updatedate=sysdate where bno=#{bno}
 	</update>
@@ -44,11 +73,13 @@
 		insert into tbl_board (bno, title, content ,writer) values(#{bno},#{title},#{content},#{writer})		
 	</insert>
 	
+	
 <!--  -->	
 	
 	
 	<select id="getCount" resultType="long">
 		select count(*) from tbl_board
+			<include refid="criteria"></include>				
 	</select>
 
 	<select id="count" resultType="long">

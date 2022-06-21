@@ -25,8 +25,11 @@ public interface BoardService {
 	public List<BoardVO> getList(Criteria cri);
 	
 	//총 글개수를 보낸다.
-	public Long count(); 
+	public Long count(Criteria cri); 
 	
 	//글랭킹
 	public List<UserCountVO> ranking();
+	
+	//중복된 글개수를 보낸다.
+	public Long duplicatedCount(); 
 }

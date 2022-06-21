@@ -29,7 +29,7 @@ public class BoardController {
 		log.info("list 요청");
 		model.addAttribute("list", service.getList(cri));
 //		model.addAttribute("count", service.count());
-		model.addAttribute("pageMaker", new PageDTO(cri,service.count()));
+		model.addAttribute("pageMaker", new PageDTO(cri,service.count(cri)));
 	}
 	
 	
@@ -80,12 +80,18 @@ public class BoardController {
 	@GetMapping("/count")
 	public void count(Criteria cri,Model model) {
 		log.info("count 요청");
-		model.addAttribute("count", service.count());
+		model.addAttribute("count", service.count(cri));
 	}
 	
 	//rank
 	@GetMapping("/ranklist")
 	public void ranklist(Model model) {
 		model.addAttribute("ranklist", service.ranking());
+	}
+	
+	//duplicated
+	@GetMapping("/duplicatedlist")
+	public void duplicatedlist(Model model) {
+		model.addAttribute("duplicatedCount", service.duplicatedCount());
 	}
 }

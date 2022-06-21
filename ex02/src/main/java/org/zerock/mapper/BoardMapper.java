@@ -32,10 +32,12 @@ public interface BoardMapper {
 	//글 랭킹
 	public List<UserCountVO> getRankList(); //목록보기
 	
+	public Long countduplicated();
 	
 	
+	//----------------------------------------------------
 	//임의 추가 - 글목록 개수
-	public Long getCount();
+	public Long getCount(Criteria cri);
 	
 	//임의추가 - 특정 작성글 개수
 	public Long count(BoardVO vo);

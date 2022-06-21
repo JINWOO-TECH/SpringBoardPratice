@@ -67,7 +67,8 @@ public class BoardServiceTest {
 	
 	@Test
 	public void testGetCount() {
-		log.info(service.count());
+		Criteria cri = new Criteria();
+		log.info(service.count(cri));
 	}
 	
 }
